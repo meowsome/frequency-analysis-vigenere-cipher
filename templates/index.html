@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Frequency Analysis Vigen&egrave;re Cipher</title>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+    </head>
+
+    <body>
+        <h1>Frequency Analysis Vign&egrave;re Cipher</h1>
+
+        <div class="wrapper-vertical left">
+            <div class="w3">
+                <form action="/decrypt" method="post" class="left wrapper-vertical w10">
+                    <label for="ciphertext">Ciphertext</label>
+                    <textarea id="ciphertext" name="ciphertext" rows="3"></textarea>
+
+                    <label for="keylength">Key Length (Leave blank to calculate best results)</label>
+                    <input id="keylength" name="keylength" type="number">
+
+                    <button>Decrypt</button>
+                </form>
+            </div>
+
+            <span></span>
+        </div>
+    </body>
+</html>
