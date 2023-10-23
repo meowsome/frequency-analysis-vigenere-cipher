@@ -7,22 +7,24 @@
     </head>
 
     <body>
-        <h1>Frequency Analysis Vign&egrave;re Cipher</h1>
+        <h1>Frequency Analysis Vigen&egrave;re Cipher</h1>
 
         <div class="wrapper-vertical left">
             <div class="w3">
-                <form action="/decrypt" method="post" class="left wrapper-vertical w10">
+                <form id="decipherForm" class="left wrapper-vertical w10">
                     <label for="ciphertext">Ciphertext</label>
                     <textarea id="ciphertext" name="ciphertext" rows="3"></textarea>
 
                     <label for="keylength">Key Length (Leave blank to calculate best results)</label>
                     <input id="keylength" name="keylength" type="number">
 
-                    <button>Decrypt</button>
+                    <input type="submit" value="Submit">
                 </form>
             </div>
 
             <span></span>
         </div>
+
+        <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
     </body>
 </html>
