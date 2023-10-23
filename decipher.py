@@ -1,5 +1,12 @@
 from collections import Counter
 
+def validate_input(ciphertext, keylength):
+    if not isinstance(ciphertext, str): return "Ciphertext must be a string"
+    elif not keylength.isdigit(): return "Keylength must be an integer"
+    elif int(keylength) <= 0: return "Keylength must be >= 0"
+    elif int(keylength) > len(ciphertext): return "Keylength must be <= ciphertext length"
+    return None
+
 # TODO change way of getting ascii number from letter based on canvas comment
 
 def decrypt_given_keylength(ciphertext, keylength):
@@ -62,4 +69,7 @@ def decrypt_given_keylength(ciphertext, keylength):
         if chara not in ["\n", "\r", " "]:
             str_list[i] = final.pop(0)
 
-    return ''.join(str_list)
+    plaintext = ''.join(str_list)
+    key = ''.join(key)
+
+    return (plaintext, key)

@@ -13,7 +13,7 @@
             <div class="w3">
                 <form id="decipherForm" class="left wrapper-vertical w10">
                     <label for="ciphertext">Ciphertext</label>
-                    <textarea id="ciphertext" name="ciphertext" rows="3"></textarea>
+                    <textarea id="ciphertext" name="ciphertext" rows="5"></textarea>
 
                     <label for="keylength">Key Length (Leave blank to calculate best results)</label>
                     <input id="keylength" name="keylength" type="number">
@@ -22,7 +22,16 @@
                 </form>
             </div>
 
-            <span></span>
+            <div id="resultContainer" class="hidden">
+                <h3>Key:</h3>
+                <span id="resultKey"></span>
+                <h3>Cracked Plaintext:</h3>
+                <span id="resultPlaintext"></span>
+            </div>
+            <div id="errorContainer" class="error hidden">
+                <h3>Error:</h3>
+                <span id="resultError"></span>
+            </div>
         </div>
 
         <script src="{{ url_for('static', filename='scripts/scripts.js') }}"></script>
