@@ -5,7 +5,7 @@ from collections import Counter
 def decrypt_given_keylength(ciphertext, keylength):
     sets = [[] for _ in range(keylength)]
 
-    str_list = list(ciphertext)
+    str_list = list(ciphertext.upper())
 
     # Remove newline, space
     str_list = [chara for chara in str_list if chara not in ["\n", "\r", " "]]
