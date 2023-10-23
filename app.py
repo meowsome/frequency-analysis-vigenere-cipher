@@ -10,3 +10,6 @@ def decrypt():
     keylength = request.form['keylength']
     print(ciphertext, keylength)
     return 'hi'
+
+if __name__ == "__main__":
+    app.run(debug=True)
