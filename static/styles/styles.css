@@ -3,6 +3,11 @@
     flex-direction: column;
 }
 
+.wrapper-horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
 .left {
     display: flex;
     justify-content: flex-start !important;
@@ -39,4 +44,8 @@ form > textarea {
 
 .hidden {
     display: none;
+}
+
+.p3 {
+    padding: 30px;
 }

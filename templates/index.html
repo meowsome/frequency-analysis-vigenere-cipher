@@ -9,19 +9,30 @@
     <body>
         <h1>Frequency Analysis Vigen&egrave;re Cipher</h1>
 
-        <div class="wrapper-vertical left">
-            <div class="w3">
-                <form id="decipherForm" class="left wrapper-vertical w10">
-                    <label for="ciphertext">Ciphertext</label>
-                    <textarea id="ciphertext" name="ciphertext" rows="5"></textarea>
+        <div class="wrapper-horizontal w10">
+            <div class="w5">
+                <div class="p3 wrapper-vertical left">
+                    <form id="decipherForm" class="left wrapper-vertical w10">
+                        <label for="ciphertext">Ciphertext</label>
+                        <textarea id="ciphertext" name="ciphertext" rows="5"></textarea>
 
-                    <label for="keylength">Key Length (Leave blank to calculate best results)</label>
-                    <input id="keylength" name="keylength" type="number">
+                        <label for="keylength">Key Length (Leave blank to calculate best results)</label>
+                        <input id="keylength" name="keylength" type="number">
 
-                    <input type="submit" value="Submit">
-                </form>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
             </div>
 
+            <div class="right w5">
+                <div class="left p3 wrapper-vertical">
+                    <input id="exampleButton" type="submit" value="Try an Example">
+                    <input id="clearButton" type="submit" value="Clear Form">
+                </div>
+            </div>
+        </div>
+
+        <div class="w10">
             <div id="resultContainer" class="hidden">
                 <h3>Key:</h3>
                 <span id="resultKey"></span>
