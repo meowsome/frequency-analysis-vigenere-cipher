@@ -1,4 +1,5 @@
 from collections import Counter
+from spellchecker import SpellChecker
 
 def validate_input(ciphertext, keylength):
     if not isinstance(ciphertext, str): return "Ciphertext must be a string"
@@ -6,6 +7,12 @@ def validate_input(ciphertext, keylength):
     elif int(keylength) <= 0: return "Keylength must be >= 0"
     elif int(keylength) > len(ciphertext): return "Keylength must be <= ciphertext length"
     return None
+
+def get_score(plaintext):
+    spell = SpellChecker()
+    known_word_count = len(spell.known(plaintext.split()))
+    total_word_count = len(list(set(plaintext.split())))
+    return round(known_word_count / total_word_count * 100, 2)
 
 # TODO change way of getting ascii number from letter based on canvas comment
 

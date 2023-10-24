@@ -17,12 +17,14 @@ function formSubmit(event) {
                     document.getElementById("errorContainer").classList.remove("hidden");
                     document.getElementById("resultPlaintext").innerText = "";
                     document.getElementById("resultKey").innerText = "";
+                    document.getElementById("resultScore").innerText = "";
                     document.getElementById("resultError").innerText = response.message;
                 } else {
                     document.getElementById("resultContainer").classList.remove("hidden");
                     document.getElementById("errorContainer").classList.add("hidden");
                     document.getElementById("resultPlaintext").innerText = response.message;
                     document.getElementById("resultKey").innerText = response.key;
+                    document.getElementById("resultScore").innerText = response.score + "%";
                     document.getElementById("resultError").innerText = "";
                 }
             }
