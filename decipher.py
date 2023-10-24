@@ -38,28 +38,22 @@ def decrypt_given_keylength(ciphertext, keylength):
         most_common_cipher_letters[i] = {letter: most_common_cipher_letters[i][letter] / len(sets[i]) for letter in most_common_cipher_letters[i].keys()} # Convert the counts into percentages out of total letters for each set
         most_common_cipher_letters[i] = dict(reversed(sorted(most_common_cipher_letters[i].items(), key=lambda item: item[1]))) # Sort for easier reading
 
-    alphabet = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19, 'U': 20, 'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25}
-
-    # Get letter by number instead of the other way around 
-    def reverse_alphabet(letter_index):
-        return list(alphabet.keys())[list(alphabet.values()).index(letter_index)]
-    
     # Figure out what the key is 
     key = []
     for cipher_letters in most_common_cipher_letters:
         # Get the most common plaintext character and the most common ciphertext charater for each set
-        first_letter = alphabet[list(cipher_letters.keys())[0]] 
-        cipher_letter = alphabet[most_common_english_letters[0]]
+        first_letter = ord(list(cipher_letters.keys())[0])
+        cipher_letter = ord(most_common_english_letters[0])
         
         # Find the difference between these to get this letter of the key belonging to this set
-        key_index = (first_letter - cipher_letter) % 26
-        key_letter = reverse_alphabet(key_index)
+        key_index = (first_letter - cipher_letter) % 26 + 65 # Need to add 65 bc ascii A starts at 65
+        key_letter = chr(key_index)
         key.append(key_letter)
 
     # Decypher each set separately
     for i in range(keylength):
         for j, letter in enumerate(sets[i]):
-            sets[i][j] = reverse_alphabet((alphabet[sets[i][j]] - alphabet[key[i]]) % 26)
+            sets[i][j] = chr((ord(sets[i][j]) - ord(key[i])) % 26 + 65) # Need to add 65 bc ascii A starts at 65
 
     # Re-combine decyphered sets into final plaintext
     final = []
@@ -80,3 +74,5 @@ def decrypt_given_keylength(ciphertext, keylength):
     key = ''.join(key)
 
     return (plaintext, key)
+
+    # TODO Iterate thru the 2nd and 3rd most common english letters, calculating and comparing the score of each and returning the one with the highest score 
