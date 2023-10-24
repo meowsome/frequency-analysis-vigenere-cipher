@@ -13,19 +13,17 @@ function formSubmit(event) {
                 console.log(response);
 
                 if (response.error) {
-                    document.getElementById("resultContainer").classList.add("hidden");
+                    clearPlaintextResult();
                     document.getElementById("errorContainer").classList.remove("hidden");
-                    document.getElementById("resultPlaintext").innerText = "";
-                    document.getElementById("resultKey").innerText = "";
-                    document.getElementById("resultScore").innerText = "";
                     document.getElementById("resultError").innerText = response.message;
+                    document.getElementById("loadingContainer").classList.add("hidden");
                 } else {
+                    clearErrorResult();
                     document.getElementById("resultContainer").classList.remove("hidden");
-                    document.getElementById("errorContainer").classList.add("hidden");
                     document.getElementById("resultPlaintext").innerText = response.message;
                     document.getElementById("resultKey").innerText = response.key;
                     document.getElementById("resultScore").innerText = response.score + "%";
-                    document.getElementById("resultError").innerText = "";
+                    document.getElementById("loadingContainer").classList.add("hidden");
                 }
             }
         }
@@ -33,7 +31,14 @@ function formSubmit(event) {
 
     var formCiphertext = document.getElementById("ciphertext").value;
     var formKeylength = document.getElementById("keylength").value;
-    var params = "ciphertext=" + formCiphertext + "&keylength=" + formKeylength;
+    var formAuto = document.getElementById("auto").checked;
+    var params = "ciphertext=" + formCiphertext + "&keylength=" + formKeylength + "&auto=" + formAuto;
+
+    if (formAuto) {
+        clearPlaintextResult();
+        clearErrorResult();
+        document.getElementById("loadingContainer").classList.remove("hidden");
+    }
 
     xhr.open("POST", "/decrypt", true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -109,5 +114,17 @@ function clearForm() {
     document.getElementById("errorContainer").classList.add("hidden");
     document.getElementById("resultPlaintext").innerText = "";
     document.getElementById("resultKey").innerText = "";
+    document.getElementById("resultError").innerText = "";
+}
+
+function clearPlaintextResult() {
+    document.getElementById("resultContainer").classList.add("hidden");
+    document.getElementById("resultPlaintext").innerText = "";
+    document.getElementById("resultKey").innerText = "";
+    document.getElementById("resultScore").innerText = "";
+}
+
+function clearErrorResult() {
+    document.getElementById("errorContainer").classList.add("hidden");
     document.getElementById("resultError").innerText = "";
 }

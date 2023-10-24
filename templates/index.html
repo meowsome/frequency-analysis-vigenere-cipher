@@ -19,6 +19,11 @@
                         <label for="keylength">Key Length (Leave blank to calculate best results)</label>
                         <input id="keylength" name="keylength" type="number">
 
+                        <div class="wrapper-horizontal mb ">
+                            <label for="auto">Automatically detect keylength&nbsp;</label>
+                            <input type="checkbox" id="auto" name="auto" value="auto">
+                        </div>
+
                         <input type="submit" value="Submit">
                     </form>
                 </div>
@@ -33,6 +38,9 @@
         </div>
 
         <div class="w10">
+            <div id="loadingContainer" class="hidden wrapper-vertical p3">
+                <h3>Loading...</h3>
+            </div>
             <div id="resultContainer" class="hidden wrapper-vertical p3">
                 <div class="wrapper-horizontal mb">
                     <b>Score:&nbsp;</b>

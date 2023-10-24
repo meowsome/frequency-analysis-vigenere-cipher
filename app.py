@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from decipher import decrypt_given_keylength, validate_input, get_score
+from decipher import decrypt_given_keylength, decrypt_range_keylength, validate_input, get_score
 app = Flask(__name__)
 @app.route('/')
 def index():
@@ -7,11 +7,15 @@ def index():
 
 @app.route('/decrypt', methods=['POST'])
 def decrypt():
-    invalid_reason = validate_input(request.form['ciphertext'], request.form['keylength'])
+    invalid_reason = validate_input(request.form['ciphertext'], request.form['keylength'], request.form['auto'])
 
     if not invalid_reason:
         try:
-            plaintext, key = decrypt_given_keylength(ciphertext=request.form['ciphertext'], keylength=int(request.form['keylength']))
+            plaintext, key = (None, None)
+            if not request.form['auto'] == "true":
+                plaintext, key = decrypt_given_keylength(ciphertext=request.form['ciphertext'], keylength=int(request.form['keylength']))
+            else:
+                plaintext, key = decrypt_range_keylength(ciphertext=request.form['ciphertext'])
             score = get_score(plaintext)
         except IndexError:
             return jsonify({'error': True, 'message': "An unknown error occurred with the algorithm. Please try a different ciphertext and keylength combination."})

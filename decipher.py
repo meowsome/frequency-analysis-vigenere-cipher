@@ -1,20 +1,23 @@
 from collections import Counter
 from spellchecker import SpellChecker
 
-def validate_input(ciphertext, keylength):
+def validate_input(ciphertext, keylength, auto):
+    auto = auto == "true"
+    print(auto, keylength)
     if not isinstance(ciphertext, str): return "Ciphertext must be a string"
-    elif not keylength.isdigit(): return "Keylength must be an integer"
-    elif int(keylength) <= 0: return "Keylength must be >= 0"
-    elif int(keylength) > len(ciphertext): return "Keylength must be <= ciphertext length"
+    elif not auto and not keylength.isdigit(): return "Keylength must be an integer"
+    elif not auto and int(keylength) <= 0: return "Keylength must be >= 0"
+    elif not auto and int(keylength) > len(ciphertext): return "Keylength must be <= ciphertext length"
     return None
 
 def get_score(plaintext):
     spell = SpellChecker()
     known_word_count = len(spell.known(plaintext.split()))
     total_word_count = len(list(set(plaintext.split())))
-    return round(known_word_count / total_word_count * 100, 2)
-
-# TODO change way of getting ascii number from letter based on canvas comment
+    if known_word_count == 0 or total_word_count == 0:
+        return 0
+    else:
+        return round(known_word_count / total_word_count * 100, 2)
 
 def decrypt_given_keylength(ciphertext, keylength):
     sets = [[] for _ in range(keylength)]
@@ -75,4 +78,14 @@ def decrypt_given_keylength(ciphertext, keylength):
 
     return (plaintext, key)
 
-    # TODO Iterate thru the 2nd and 3rd most common english letters, calculating and comparing the score of each and returning the one with the highest score 
+#Iterate thru the 2nd and 3rd most common english letters, calculating and comparing the score of each and returning the one with the highest score 
+def decrypt_range_keylength(ciphertext):
+    keylengths = list(range(1, len(ciphertext)))
+    for keylength in keylengths:
+        plaintext, key = decrypt_given_keylength(ciphertext, keylength)
+        score = get_score(plaintext)
+        print(plaintext, key, keylength, score)
+        if score > 85:
+            return (plaintext, key)
+
+    return ("", "")
