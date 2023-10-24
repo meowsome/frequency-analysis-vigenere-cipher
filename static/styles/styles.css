@@ -1,3 +1,7 @@
+* {
+    margin: 0;
+}
+
 .wrapper-vertical {
     display: flex;
     flex-direction: column;
@@ -48,4 +52,8 @@ form > textarea {
 
 .p3 {
     padding: 30px;
+}
+
+.mb {
+    margin-bottom: 7px;
 }

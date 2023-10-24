@@ -33,13 +33,19 @@
         </div>
 
         <div class="w10">
-            <div id="resultContainer" class="hidden">
-                <h3>Key:</h3>
-                <span id="resultKey"></span>
-                <h3>Cracked Plaintext:</h3>
+            <div id="resultContainer" class="hidden wrapper-vertical p3">
+                <div class="wrapper-horizontal mb">
+                    <b>Score:&nbsp;</b>
+                    <span id="resultScore"></span>
+                </div>
+                <div class="wrapper-horizontal mb">
+                    <b>Key:&nbsp;</b>
+                    <span id="resultKey"></span>
+                </div>
+                <b>Cracked Plaintext:</b>
                 <span id="resultPlaintext"></span>
             </div>
-            <div id="errorContainer" class="error hidden">
+            <div id="errorContainer" class="error hidden p3">
                 <h3>Error:</h3>
                 <span id="resultError"></span>
             </div>
