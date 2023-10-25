@@ -4,13 +4,20 @@ window.addEventListener("load",function(){
     document.getElementById("clearButton").addEventListener("click", clearForm);
 });
 
+var formLoading = false;
+
+function doneLoading() {
+    document.getElementById("submitbtn").disabled = false;
+    formLoading = false;
+}
+
 function formSubmit(event) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
         if (this.readyState == 4 || this.status == 200) {
             if (this.responseText) {
+                doneLoading();
                 var response = JSON.parse(this.responseText);
-                console.log(response);
 
                 if (response.error) {
                     clearPlaintextResult();
@@ -28,6 +35,7 @@ function formSubmit(event) {
                 }
             }
         } else if (this.status == 429) {
+            doneLoading();            
             clearPlaintextResult();
             document.getElementById("errorContainer").classList.remove("hidden");
             document.getElementById("resultError").innerText = "Please slow down";
@@ -35,21 +43,23 @@ function formSubmit(event) {
         }
     }
 
-    var formCiphertext = document.getElementById("ciphertext").value;
-    var formKeylength = document.getElementById("keylength").value;
-    var formAuto = document.getElementById("auto").checked;
-    var params = "ciphertext=" + formCiphertext + "&keylength=" + formKeylength + "&auto=" + formAuto;
+    if (!formLoading) {
+        formLoading = true;
+        var formCiphertext = document.getElementById("ciphertext").value;
+        var formKeylength = document.getElementById("keylength").value;
+        var formAuto = document.getElementById("auto").checked;
+        var params = "ciphertext=" + formCiphertext + "&keylength=" + formKeylength + "&auto=" + formAuto;
 
-    if (formAuto) {
         clearPlaintextResult();
         clearErrorResult();
+        document.getElementById("submitbtn").disabled = true;
         document.getElementById("loadingContainer").classList.remove("hidden");
+
+        xhr.open("POST", "/decrypt", true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        xhr.send(params);
     }
-
-    xhr.open("POST", "/decrypt", true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-    xhr.send(params);
 
     event.preventDefault();
 }
