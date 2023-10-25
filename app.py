@@ -1,6 +1,11 @@
 from flask import Flask, render_template, request, jsonify
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from decipher import decrypt_given_keylength, decrypt_range_keylength, validate_input, get_score
+
 app = Flask(__name__)
+limiter = Limiter(get_remote_address, app=app, default_limits=["2/second", "60/minute"])
+
 @app.route('/')
 def index():
     return render_template('index.html')

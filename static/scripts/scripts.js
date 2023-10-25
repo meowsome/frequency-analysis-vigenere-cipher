@@ -27,6 +27,11 @@ function formSubmit(event) {
                     document.getElementById("loadingContainer").classList.add("hidden");
                 }
             }
+        } else if (this.status == 429) {
+            clearPlaintextResult();
+            document.getElementById("errorContainer").classList.remove("hidden");
+            document.getElementById("resultError").innerText = "Please slow down";
+            document.getElementById("loadingContainer").classList.add("hidden");
         }
     }
 
