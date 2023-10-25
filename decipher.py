@@ -107,19 +107,19 @@ def decrypt_given_keylength(ciphertext, keylength):
         print(this_key, score)
         # Return early if really good score found
         if score > 70:
-            return (plaintext, final_key)
+            return (plaintext, final_key, None)
 
     # If not returned already, return the best score
     best_scoring = max(results, key=lambda x:x['score'])
-    return (best_scoring['plaintext'], best_scoring['key'])
+    return (best_scoring['plaintext'], best_scoring['key'], "Please include more ciphertext for better results.")
 
 #Iterate thru the 2nd and 3rd most common english letters, calculating and comparing the score of each and returning the one with the highest score 
 def decrypt_range_keylength(ciphertext):
     keylengths = list(range(1, len(ciphertext)))
     for keylength in keylengths:
-        plaintext, key = decrypt_given_keylength(ciphertext, keylength)
+        plaintext, key, note = decrypt_given_keylength(ciphertext, keylength)
         score = get_score(plaintext)
         if score > correctness_threshold:
-            return (plaintext, key)
+            return (plaintext, key, None)
 
-    return ("", "")
+    return ("", "", None)

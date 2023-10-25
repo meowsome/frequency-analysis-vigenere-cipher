@@ -22,6 +22,7 @@ function formSubmit(event) {
                     document.getElementById("resultContainer").classList.remove("hidden");
                     document.getElementById("resultPlaintext").innerText = response.message;
                     document.getElementById("resultKey").innerText = response.key;
+                    document.getElementById("resultNote").innerText = response.note;
                     document.getElementById("resultScore").innerText = response.score + "%";
                     document.getElementById("loadingContainer").classList.add("hidden");
                 }
@@ -120,6 +121,7 @@ function clearForm() {
 function clearPlaintextResult() {
     document.getElementById("resultContainer").classList.add("hidden");
     document.getElementById("resultPlaintext").innerText = "";
+    document.getElementById("resultNote").innerText = "";
     document.getElementById("resultKey").innerText = "";
     document.getElementById("resultScore").innerText = "";
 }

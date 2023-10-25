@@ -11,16 +11,16 @@ def decrypt():
 
     if not invalid_reason:
         try:
-            plaintext, key = (None, None)
+            plaintext, key, note = (None, None, None)
             if not request.form['auto'] == "true":
-                plaintext, key = decrypt_given_keylength(ciphertext=request.form['ciphertext'], keylength=int(request.form['keylength']))
+                plaintext, key, note = decrypt_given_keylength(ciphertext=request.form['ciphertext'], keylength=int(request.form['keylength']))
             else:
-                plaintext, key = decrypt_range_keylength(ciphertext=request.form['ciphertext'])
+                plaintext, key, note = decrypt_range_keylength(ciphertext=request.form['ciphertext'])
             score = get_score(plaintext)
         except IndexError:
             return jsonify({'error': True, 'message': "An unknown error occurred with the algorithm. Please try a different ciphertext and keylength combination."})
         else:
-            return jsonify({'error': False, 'message': plaintext, 'key': key, 'score': score})
+            return jsonify({'error': False, 'message': plaintext, 'key': key, 'score': score, 'note': note})
     else:
         return jsonify({'error': True, 'message': invalid_reason})
 
