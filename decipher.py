@@ -1,7 +1,8 @@
 from collections import Counter
 from spellchecker import SpellChecker
+from itertools import product
 
-invalid_characters = ["\n", "\r", " ", ".", "!", "’"]
+invalid_characters = ["\n", "\r", " ", ".", "!", "’", "'" ",", ";", ":"]
 correctness_threshold = 75
 
 def validate_input(ciphertext, keylength, auto):
@@ -45,6 +46,13 @@ def decipher(sets, ciphertext, key):
     plaintext = ''.join(str_list)
     return plaintext
 
+def remove_dupes(k):
+    new_k = []
+    for elem in k:
+        if elem not in new_k:
+            new_k.append(elem)
+    return new_k
+
 def decrypt_given_keylength(ciphertext, keylength):
     print(f"Trying keylength {keylength}")
     sets = [[] for _ in range(keylength)]
@@ -58,7 +66,7 @@ def decrypt_given_keylength(ciphertext, keylength):
     for i in range(keylength):
         sets[i] = str_list[i::keylength]
 
-    most_common_english_letters = ['E','A','R','I','O','T']
+    most_common_english_letters = ['E', 'T', 'A', 'O', 'I', 'N', 'S', 'R', 'H']
     most_common_cipher_letters = []
 
     # Fill the most_common_cipher_letters list
@@ -67,27 +75,41 @@ def decrypt_given_keylength(ciphertext, keylength):
 
         most_common_cipher_letters[i] = {letter: most_common_cipher_letters[i][letter] / len(sets[i]) for letter in most_common_cipher_letters[i].keys()} # Convert the counts into percentages out of total letters for each set
         most_common_cipher_letters[i] = dict(reversed(sorted(most_common_cipher_letters[i].items(), key=lambda item: item[1]))) # Sort for easier reading
-    
+
+    # Generate all possible keys to try
+    all_possible_keys = []
+    common_english_letter_permutations = list(product(most_common_english_letters, repeat=keylength)) # Create combination of every most common english letter of keylength size
+    for common_english_letters_of_keylength in common_english_letter_permutations:
+        for common_english_letter in common_english_letters_of_keylength:
+            # For this combination of most common english letter permutation and 1st most common cipher letter for each set, find key
+            key = []
+            for cipher_letters in most_common_cipher_letters:
+                # Get the most common plaintext character and the most common ciphertext charater for each set
+                first_letter = ord(list(cipher_letters.keys())[0])
+                cipher_letter = ord(common_english_letter)
+                
+                # Find the difference between these to get this letter of the key belonging to this set
+                key_index = (first_letter - cipher_letter) % 26 + 65 # Need to add 65 bc ascii A starts at 65
+                key_letter = chr(key_index)
+                key.append(key_letter)
+            all_possible_keys.append(key)
+
+    # Remove duplicates from list of lists of keys
+    unique_data = remove_dupes(all_possible_keys)
+
     # Figure out what the key is 
     results = []
-    for common_english_letter in most_common_english_letters:
-        print(f'Trying letter {common_english_letter}')
-        key = []
-        for cipher_letters in most_common_cipher_letters:
-            # Get the most common plaintext character and the most common ciphertext charater for each set
-            first_letter = ord(list(cipher_letters.keys())[0])
-            cipher_letter = ord(common_english_letter)
-            
-            # Find the difference between these to get this letter of the key belonging to this set
-            key_index = (first_letter - cipher_letter) % 26 + 65 # Need to add 65 bc ascii A starts at 65
-            key_letter = chr(key_index)
-            key.append(key_letter)
-
-        plaintext = decipher(sets, ciphertext, key)
-        key = ''.join(key)
+    for this_key in unique_data:
+        plaintext = decipher(sets, ciphertext, this_key)
+        final_key = ''.join(this_key)
         score = get_score(plaintext)
-        results.append({'score': score, 'plaintext': plaintext, 'key': key})
+        results.append({'score': score, 'plaintext': plaintext, 'key': final_key})
+        print(this_key, score)
+        # Return early if really good score found
+        if score > 70:
+            return (plaintext, final_key)
 
+    # If not returned already, return the best score
     best_scoring = max(results, key=lambda x:x['score'])
     return (best_scoring['plaintext'], best_scoring['key'])
 
