@@ -4,6 +4,11 @@
         <meta charset="UTF-8">
         <title>Frequency Analysis Vigen&egrave;re Cipher</title>
         <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+        <meta name="description" content="Crack ciphertext generated with the Vigen&egrave;re cipher using frequency analysis given a keylength">
+
+        <meta itemprop="name" content="Frequency Analysis Vigen&egrave;re Cipher">
+        <meta itemprop="description" content="Crack ciphertext generated with the Vigen&egrave;re cipher using frequency analysis given a keylength">
+        <meta itemprop="image" content="">
     </head>
 
     <body>
@@ -32,6 +37,13 @@
             <div class="right w5">
                 <div class="left wrapper-vertical">
                     <div class="mb p3 wrapper-vertical left">
+                        <h3>Info</h3>
+                        <ul>
+                            <li><p>Crack ciphertext generated with the Vigen&egrave;re cipher using frequency analysis given a keylength</p></li>
+                            <li>GitHub repository with algorithm: <a href="https://github.com/meowsome/frequency-analysis-vigenere-cipher" target="_blank">Click here</a></li>
+                        </ul>
+                    </div>
+                    <div class="mb p3 wrapper-vertical left">
                         <h3>Tools</h3>
                         <input id="exampleButton" type="submit" value="Try an Example">
                         <input id="clearButton" type="submit" value="Clear Form">
@@ -39,7 +51,7 @@
                     <div class="p3">
                         <h3>Limitations</h3>
                         <ul>
-                            <li>The algorithm is very slow when the key length is 7 or higher</li>
+                            <li>The algorithm is very slow when the key length is 6 or higher</li>
                             <li>The auto-detect keylength functionality is very slow</li>
                         </ul>
                     </div>
