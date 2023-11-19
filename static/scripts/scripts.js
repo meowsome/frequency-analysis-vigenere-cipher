@@ -131,6 +131,7 @@ function clearForm() {
     document.getElementById("resultPlaintext").innerText = "";
     document.getElementById("resultKey").innerText = "";
     document.getElementById("resultError").innerText = "";
+    document.getElementById("auto").checked = false;
 }
 
 function clearPlaintextResult() {
