@@ -2,7 +2,6 @@ from collections import Counter
 from spellchecker import SpellChecker
 from itertools import product
 
-invalid_characters = ["\n", "\r", " ", ".", "!", "’", "'" ",", ";", ":"]
 correctness_threshold = 75
 
 def validate_input(ciphertext, keylength, auto):
@@ -40,7 +39,7 @@ def decipher(sets, ciphertext, key):
     # Add spaces and newlines back where they used to be 
     for i in range(len(str_list)):
         chara = str_list[i]
-        if chara not in invalid_characters:
+        if chara.isalpha():
             str_list[i] = final.pop(0)
 
     plaintext = ''.join(str_list)
@@ -60,7 +59,7 @@ def decrypt_given_keylength(ciphertext, keylength):
     str_list = list(ciphertext.upper())
 
     # Remove newline, space
-    str_list = [chara for chara in str_list if chara not in invalid_characters]
+    str_list = [chara for chara in str_list if chara.isalpha()]
 
     # Separate out into separate lists for each section of the key
     for i in range(keylength):
